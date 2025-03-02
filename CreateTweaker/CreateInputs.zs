@@ -1,5 +1,6 @@
 #priority 1000
 #modloaded create
+
 import crafttweaker.api.block.Block;
 import crafttweaker.api.block.BlockState;
 import crafttweaker.api.data.IData;
