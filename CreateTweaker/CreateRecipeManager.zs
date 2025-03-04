@@ -20,7 +20,7 @@ public class CreateRecipeManager {
             type: types
         });
         if (!extendedMap.isEmpty()) map.merge(extendedMap);
+        // println(map.getAsString());
         recipes.addJsonRecipe(DataConvertUtils.recipesName(), map);
-        // recipeType.addJsonRecipe(DataConvertUtils.recipesName(), builder.getRecipe());
     }
 }

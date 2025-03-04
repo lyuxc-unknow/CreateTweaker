@@ -23,8 +23,8 @@ CreateRecipeManager.addRecipe(<recipetype:create:sequenced_assembly>, new Create
     .input(<item:minecraft:glowstone_dust>)
     .loop(10)
     .results([
-        CreateInputs.ingredientWithChance(<item:minecraft:glowstone>),
-        CreateInputs.ingredientWithChance(<item:minecraft:glowstone_dust>,99)
+        <item:minecraft:glowstone>,
+        <item:minecraft:glowstone_dust> % 9900
     ])
     .sequence([
         CreateInputs.pressing(),
@@ -92,7 +92,7 @@ CreateRecipeManager.addRecipe(<recipetype:create:cutting>, new CreateRecipeBuild
 CreateRecipeManager.addRecipe(<recipetype:create:splashing>, new CreateRecipeBuilder()
     .inputs([<item:minecraft:flint>])
     .processingTime(400)
-    .results([CreateInputs.ingredientWithChance(<item:minecraft:netherite_scrap>,0.25)])
+    .results([<item:minecraft:netherite_scrap> % 25])
 );
 
 CreateRecipeManager.addRecipe(<recipetype:create:mechanical_crafting>, new CreateRecipeBuilder()

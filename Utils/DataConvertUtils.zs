@@ -1,4 +1,5 @@
 #priority 1000
+
 import crafttweaker.api.block.Block;
 import crafttweaker.api.block.BlockState;
 import crafttweaker.api.data.IData;
@@ -19,6 +20,10 @@ import uuid.UUID;
 public class DataConvertUtils {
     private static val usedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#@".toAsciiBytes();
 
+    /**
+    * @param itemstack 输入需要转换的IItemStack
+    * @return 转换后的数据表（MapData）
+    */
     public static convertItemStack(itemstack as IItemStack) as MapData {
         val itemData as MapData = new MapData();
         itemData.put("id",itemstack.registryName);
@@ -50,6 +55,10 @@ public class DataConvertUtils {
         return itemData;
     }
 
+    /**
+    * @param tag 输入需要转换的标签
+    * @return 转换后的数据表（MapData）
+    */
     public static convertTag(tag as Many<KnownTag<ItemDefinition>>) as MapData {
         val itemData as MapData = new MapData();
         itemData.put("id",tag.data.id);
@@ -60,6 +69,10 @@ public class DataConvertUtils {
         return itemData;
     }
 
+    /**
+    * @param ingredients 输入需要转换二维数组
+    * @return 转换后的数据表（MapData）
+    */
     public static toPatternAndKey(ingredients as IIngredient[][]) as MapData {
         return {
             "pattern": toPattern(ingredients),
@@ -67,6 +80,10 @@ public class DataConvertUtils {
         };
     }
 
+    /**
+    * @param ingredients 输入需要转换二维数组
+    * @return 转换后的Pattern数据列表（ListData）
+    */
     public static toPattern(ingredients as IIngredient[][]) as ListData {
         val pattern = new ListData(); // 最终的 pattern 数组
         val ingredientList = new List<IIngredient>(); // 存储唯一的 IIngredient
@@ -95,6 +112,10 @@ public class DataConvertUtils {
         return pattern;
     }
 
+    /**
+    * @param ingredients 输入需要转换二维数组
+    * @return 转换后的Key数据表（MapData）
+    */
     public static toKey(ingredients as IIngredient[][]) as MapData {
         val ingredientList = new List<IIngredient>();
         val charList = new List<string>();
@@ -124,6 +145,9 @@ public class DataConvertUtils {
         return keyMap;
     }
 
+    /**
+    * @return 生成随机获取UUID当作配方名使用
+    */
     public static recipesName() as string {
         return UUID.random() as string;
     }
