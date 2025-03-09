@@ -18,7 +18,8 @@ public class CreateRecipeManager {
         if (!extendedMap.isEmpty()) map.merge(extendedMap);
         // println(map.getAsString());
         recipes.addJsonRecipe(DataConvertUtils.recipesName(), map);
-        // Mechanical power requires "type" to be so, I know this code is very bad, but I don't know how to simplify it
+        // Create requires "type" to be so, I know this code is very bad, but I don't know how to simplify it
+        // 机械动力强制要type这个类型，但是我不知道怎么去简化这坨代码，如果可以简化的话就可以直接使用下面这行了
         // recipeType.addJsonRecipe(DataConvertUtils.recipesName(), map);
     }
 }

@@ -1,4 +1,4 @@
-
+#noload
 
 /*
     <recipetype:create:item_application>//手动使用物品
