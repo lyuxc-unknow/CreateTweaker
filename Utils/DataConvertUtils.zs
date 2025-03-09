@@ -1,7 +1,5 @@
 #priority 1000
 
-import crafttweaker.api.block.Block;
-import crafttweaker.api.block.BlockState;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.data.ListData;
 import crafttweaker.api.data.MapData;
@@ -9,10 +7,7 @@ import crafttweaker.api.ingredient.IIngredientWithAmount;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.item.ItemDefinition;
 import crafttweaker.api.ingredient.IIngredient;
-import crafttweaker.api.resource.ResourceLocation;
 import crafttweaker.api.tag.type.KnownTag;
-import crafttweaker.api.world.Level;
-import crafttweaker.api.util.math.BlockPos;
 import crafttweaker.api.util.Many;
 import stdlib.List;
 import uuid.UUID;

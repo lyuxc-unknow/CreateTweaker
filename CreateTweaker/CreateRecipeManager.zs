@@ -3,11 +3,7 @@
 
 import crafttweaker.api.recipe.IRecipeManager;
 import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.ingredient.IIngredient;
-import crafttweaker.api.data.IData;
-import crafttweaker.api.data.ListData;
 import crafttweaker.api.data.MapData;
-import crafttweaker.api.util.random.Percentaged;
 import crafttweaker.api.recipe.type.Recipe;
 import crafttweaker.api.world.Container;
 
@@ -22,5 +18,7 @@ public class CreateRecipeManager {
         if (!extendedMap.isEmpty()) map.merge(extendedMap);
         // println(map.getAsString());
         recipes.addJsonRecipe(DataConvertUtils.recipesName(), map);
+        // Mechanical power requires "type" to be so, I know this code is very bad, but I don't know how to simplify it
+        // recipeType.addJsonRecipe(DataConvertUtils.recipesName(), map);
     }
 }

@@ -4,10 +4,8 @@
 import crafttweaker.api.data.MapData;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.data.ListData;
-import crafttweaker.api.fluid.IFluidStack;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.ingredient.IIngredient;
-import stdlib.List;
 
 public class CreateRecipeBuilder {
     private var recipe as MapData;
@@ -18,6 +16,7 @@ public class CreateRecipeBuilder {
 
     public getRecipe() as MapData => recipe;
 
+    // Input (multiple type)
     // 输入（多种）
     public inputs(input as CreateIngredient[]) as CreateRecipeBuilder {
         var ingredientList as ListData = new ListData();
@@ -28,19 +27,14 @@ public class CreateRecipeBuilder {
         return this;
     }
 
-    // 输入（单个/单种）
+    // Input (single type)
+    // 输入（单种）
     public input(input as IIngredient) as CreateRecipeBuilder {
         recipe.put("ingredient",input as IData);
         return this;
     }
-
-    // 序列组装循环次数
-    public loop(loops as int) as CreateRecipeBuilder {
-        recipe.put("loops",loops);
-        return this;
-    }
-
-    // 输出物品/流体（多种）
+    
+    // Output (multiple type)
     public results(results as CreateIngredient[]) as CreateRecipeBuilder {
         var resultsList as ListData = new ListData();
         for result in results {
@@ -50,12 +44,30 @@ public class CreateRecipeBuilder {
         return this;
     }
 
-    // 输出物品/流体（单个/单种）
+    // Output (single type)
+    // Maybe it is only used for sequence assembly
+    // 单种输出
+    // 也许只有序列组装才接受result参数
     public result(result as CreateIngredient) as CreateRecipeBuilder {
         recipe.put("result",result);
         return this;
     }
+    
+    // Sequence assembly loop times
+    // 序列组装循环次数
+    public loops(loopTimes as int) as CreateRecipeBuilder {
+        recipe.put("loops",loopTimes);
+        return this;
+    }
 
+    // Mechanical Crafting: Items needed for crafting
+    // 动力合成合成所需物品
+    public inputs(inputs as IIngredient[][]) as CreateRecipeBuilder {
+        recipe.merge(DataConvertUtils.toPatternAndKey(inputs));
+        return this;
+    }
+
+    // Sequence assembly steps
     // 序列组装步骤
     public sequence(sequences as CreateIngredient[],transitionalItem as IItemStack) as CreateRecipeBuilder {
         var sequenceList as ListData = new ListData();
@@ -77,65 +89,66 @@ public class CreateRecipeBuilder {
         return this;
     }
 
-    // 请勿使用sequence(CreateIngredient[])
-    // 请使用sequence(CreateIngredient[], IItemStack)
-    public sequence(sequences as CreateIngredient[]) as CreateRecipeBuilder {
-        var sequenceList as ListData = new ListData();
-        for sequence in sequences {
-            sequenceList.add(sequence);
-        }
-        recipe.put("sequence",sequenceList);
-        return this;
-    }
-
-    // 请勿使用transitionalItem(IItemStack)
-    // 请使用sequence(CreateIngredient[], IItemStack)
-    public transitionalItem(transitionalItem as IItemStack) as CreateRecipeBuilder {
-        val transitionalItem as MapData = DataConvertUtils.convertItemStack(transitionalItem);
-        recipe.put("transitional_item",transitionalItem);
-        return this;
-    }
-
-    // 混合合成是否需要热量
-    // 可以输入 heated、superheated or none
-    public heatRequirement(heat as string = "") as CreateRecipeBuilder {
-        if (heat in ["heated","superheated"]) recipe.put("heat_requirement",heat);
-        return this;
-    }
-
-    // 合成所需要的时间
-    public processingTime(time as int = 200) as CreateRecipeBuilder {
-        recipe.put("processing_time",time);
-        return this;
-    }
-
-    // 保持手上的物品
-    public keepHeldItem(keep as bool = true) as CreateRecipeBuilder {
-        recipe.put("keep_held_item",keep);
-        return this;
-    }
-
-    // 动力合成合成所需物品
-    public mechanicalCraftingInput(inputs as IIngredient[][]) as CreateRecipeBuilder {
-        recipe.merge(DataConvertUtils.toPatternAndKey(inputs));
-        return this;
-    }
-
+    // // Display notification (mechanical crafting)
     // 显示通知（动力合成）
     public showNotification(show as bool = true) as CreateRecipeBuilder {
         recipe.put("show_notification",show);
         return this;
     }
 
+    // Accept mirror to crafting (mechanical crafting) (required)
     // 允许镜像合成（动力合成）
     public acceptMirrored(show as bool = true) as CreateRecipeBuilder {
         recipe.put("accept_mirrored",show);
         return this;
     }
 
+    // Category (mechanical crafting)
     // 类别（动力合成）
     public category(show as string = "misc") as CreateRecipeBuilder {
         recipe.put("category",show);
+        return this;
+    }
+
+    // 请勿使用sequence(CreateIngredient[])
+    // 请使用sequence(CreateIngredient[], IItemStack)
+    // public sequence(sequences as CreateIngredient[]) as CreateRecipeBuilder {
+    //     var sequenceList as ListData = new ListData();
+    //     for sequence in sequences {
+    //         sequenceList.add(sequence);
+    //     }
+    //     recipe.put("sequence",sequenceList);
+    //     return this;
+    // }
+
+    // // 请勿使用transitionalItem(IItemStack)
+    // // 请使用sequence(CreateIngredient[], IItemStack)
+    // public transitionalItem(transitionalItem as IItemStack) as CreateRecipeBuilder {
+    //     val transitionalItem as MapData = DataConvertUtils.convertItemStack(transitionalItem);
+    //     recipe.put("transitional_item",transitionalItem);
+    //     return this;
+    // }
+
+    // Whether Mixin Crafting requires heat
+    // You can enter heated, superheated or none. The default is none
+    // 混合合成是否需要热量
+    // 可以输入 heated、superheated or none
+    public heatRequirement(heat as string = "none") as CreateRecipeBuilder {
+        if (heat in ["heated","superheated"]) recipe.put("heat_requirement",heat);
+        return this;
+    }
+
+    // The time required for the process
+    // 合成所需要的时间
+    public processingTime(time as int = 200) as CreateRecipeBuilder {
+        recipe.put("processing_time",time);
+        return this;
+    }
+
+    // Keep the item in hand. This method is only used when <recipetype:create:deploying>
+    // 保持手上的物品，仅在<recipetype:create:deploying>类型使用到
+    public keepHeldItem(keep as bool = true) as CreateRecipeBuilder {
+        recipe.put("keep_held_item",keep);
         return this;
     }
 }

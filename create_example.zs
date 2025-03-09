@@ -1,4 +1,4 @@
-#noload
+
 
 /*
     <recipetype:create:item_application>//手动使用物品
@@ -21,7 +21,7 @@
 */
 CreateRecipeManager.addRecipe(<recipetype:create:sequenced_assembly>, new CreateRecipeBuilder()
     .input(<item:minecraft:glowstone_dust>)
-    .loop(10)
+    .loops(10)
     .results([
         <item:minecraft:glowstone>,
         <item:minecraft:glowstone_dust> % 9900
@@ -96,7 +96,7 @@ CreateRecipeManager.addRecipe(<recipetype:create:splashing>, new CreateRecipeBui
 );
 
 CreateRecipeManager.addRecipe(<recipetype:create:mechanical_crafting>, new CreateRecipeBuilder()
-    .mechanicalCraftingInput(
+    .inputs(
         [
             [<item:minecraft:air>,<item:minecraft:grass_block>,<item:minecraft:grass_block>,<item:minecraft:grass_block>,<item:minecraft:air>],
             [<item:minecraft:grass_block>,<item:minecraft:grass_block>,<item:minecraft:grass_block>,<item:minecraft:grass_block>,<item:minecraft:grass_block>],
